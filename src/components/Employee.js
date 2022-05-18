@@ -14,7 +14,10 @@ function Employee({ employee }) {
 
   useEffect(() => {
     handleClose();
-  }, [employee]);
+}, [employee]);
+
+
+
   return (
     <>
 
