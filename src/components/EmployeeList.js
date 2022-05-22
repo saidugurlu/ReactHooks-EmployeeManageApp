@@ -31,11 +31,13 @@ const EmployeeList = () => {
     };
   }, [sortedEmployees]);
 
-
   const indexOfLastEmployee = currentPage * employeesPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
-  const currentEmployees = sortedEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee);
-  const totalPagesNum = Math.ceil(sortedEmployees.length /employeesPerPage)
+  const currentEmployees = sortedEmployees.slice(
+    indexOfFirstEmployee,
+    indexOfLastEmployee
+  );
+  const totalPagesNum = Math.ceil(sortedEmployees.length / employeesPerPage);
 
   return (
     <>
@@ -75,13 +77,18 @@ const EmployeeList = () => {
         </thead>
         <tbody>
           {currentEmployees.map((employee) => (
-              <tr key={employee.id}>
-                <Employee employee={employee} />
-              </tr>
-            ))}
+            <tr key={employee.id}>
+              <Employee employee={employee} />
+            </tr>
+          ))}
         </tbody>
       </table>
-      <Pagination pages={totalPagesNum} setCurrentPage={setCurrentPage} />
+      <Pagination
+        pages={totalPagesNum}
+        setCurrentPage={setCurrentPage}
+        sortedEmployees={sortedEmployees}
+        currentEmployees={currentEmployees}
+      />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="modal-header" closeButton>
           <Modal.Title>Add Employee</Modal.Title>

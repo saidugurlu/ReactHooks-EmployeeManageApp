@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-const Pagination = ({ pages, setCurrentPage }) => {
+const Pagination = ({ pages, setCurrentPage, sortedEmployees, currentEmployees }) => {
   const numOfPages = [];
 
   for (let i = 1; i <= pages; i++) {
@@ -17,7 +17,7 @@ const Pagination = ({ pages, setCurrentPage }) => {
   return (
     <div className="clearfix">
       <div className="hint-text">
-        Showing <b>5</b> out of <b>25</b> entries
+        Showing <b>{currentEmployees.length}</b> out of <b>{sortedEmployees.length}</b> entries
       </div>
       <ul className="pagination">
         <li
@@ -80,9 +80,4 @@ const Pagination = ({ pages, setCurrentPage }) => {
 
 export default Pagination;
 
-/* <li class="page-item"><a href="#" class="page-link">1</a></li>
-<li class="page-item"><a href="#" class="page-link">2</a></li>
-<li class="page-item active"><a href="#" class="page-link">3</a></li>
-<li class="page-item"><a href="#" class="page-link">4</a></li>
-<li class="page-item"><a href="#" class="page-link">5</a></li>
-<li class="page-item"><a href="#" class="page-link">Next</a></li> */
+
