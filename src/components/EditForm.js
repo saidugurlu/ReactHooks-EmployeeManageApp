@@ -3,7 +3,9 @@ import { Form, Button } from "react-bootstrap";
 import { EmployeeContext } from "../contexts/EmployeeContext";
 
 const EditForm = ({ theEmployee }) => {
-  const { updateEmployee } = useContext(EmployeeContext);
+
+  const { dispatch } = useContext(EmployeeContext);
+  
   const employee = theEmployee;
   const id = employee.id;
 
@@ -23,7 +25,8 @@ const EditForm = ({ theEmployee }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateEmployee(id, updatedEmployee)
+   // updateEmployee(id, updatedEmployee)
+   dispatch ({type: "update_employee", id, updatedEmployee })
   }
   return (
     <Form onSubmit={handleSubmit}>

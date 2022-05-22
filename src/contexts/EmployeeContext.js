@@ -1,10 +1,11 @@
-import { createContext, useState, useEffect } from "react";
+/* eslint-disable default-case */
+import { createContext, useReducer, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export const EmployeeContext = createContext();
 
 const EmployeeContextProvider = (props) => {
-  const [employees, setEmployees] = useState([
+  /*   const [employees, setEmployees] = useState([
     {
       id: uuidv4(),
       name: "Thomas Hardy",
@@ -41,39 +42,62 @@ const EmployeeContextProvider = (props) => {
       phone: "(480) 631-2097",
     },
   ]);
+ */
+  
+  
+  const reducer = (employees, action) => {
+    switch(action.type) {
+      case 'add_employee':
+          return [...employees, {
+              id: uuidv4(),
+              name: action.employee.name, 
+              email: action.employee.email,
+              address: action.employee.address,
+              phone: action.employee.phone,
+          }]
+      case "remove_employee":
+        return employees.filter((employee) => employee.id !== action.id);
 
-  useEffect(() => {
+      case "update_employee":
+        return employees.map((employee) =>
+          (employee.id === action.id ? action.updatedEmployee : employee
+        ));
+
+      default:
+        return employees;
+    }
+  };
+
+  const [employees, dispatch] = useReducer(reducer, [], () => {
     const employees = localStorage.getItem("employees");
-    setEmployees(JSON.parse(employees));
-  }, []);
+    return employees ? JSON.parse(employees) : [];
+  });
 
   useEffect(() => {
     localStorage.setItem("employees", JSON.stringify(employees));
   });
 
   const sortedEmployees = employees.sort((a, b) => (a.name < b.name ? -1 : 1));
-
+  /* 
   const addEmployee = (name, email, address, phone) => {
     setEmployees([
       ...employees,
       { id: uuidv4(), name, email: email, address, phone },
     ]);
-  };
-  const deleteEmployee = (id) => {
+  }; */
+  /*   const deleteEmployee = (id) => {
     setEmployees(employees.filter((employee) => employee.id !== id));
-  };
+  }; */
 
-  const updateEmployee = (id, updatedEmployee) => {
+  /*   const updateEmployee = (id, updatedEmployee) => {
     setEmployees(
       employees.map((employee) =>
         employee.id === id ? updatedEmployee : employee
       )
     );
-  };
+  }; */
   return (
-    <EmployeeContext.Provider
-      value={{ sortedEmployees, addEmployee, deleteEmployee, updateEmployee }}
-    >
+    <EmployeeContext.Provider value={{ sortedEmployees, dispatch }}>
       {props.children}
     </EmployeeContext.Provider>
   );
